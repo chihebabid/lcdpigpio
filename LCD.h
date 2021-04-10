@@ -7,6 +7,8 @@ private:
 	int16_t m_i2cHandle;
 	bool m_backlight_on;
 	uint8_t m_RS,m_E,m_BL,m_B4;
+	uint8_t m_displayFunction; // Mode 4/8bits ; #lines ; font
+    uint8_t m_displayControl;
 	void init() const;
 	void write4bits(uint8_t value) const;
 public:

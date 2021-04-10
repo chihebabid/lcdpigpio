@@ -20,8 +20,6 @@ int main(int argc, char *argv[]) {
 	}
 	// Initialize the LCD driver
 	LCD lcd(1, 0x27);
-
-
 	while (1) {
 		lcd.setPosition(0, 0);
 		lcd.putData(65);  // Put char 'A'
@@ -34,7 +32,7 @@ int main(int argc, char *argv[]) {
 		sleep(1);
 		lcd.setPosition(0, 1);
 		lcd.putData(68); // Put char 'D'
-		lcd.puts("ABC"); // Put string "ABC3
+		lcd.puts("Bonjour..."); // Put string "ABC3
 		sleep(1);
 	}
 	gpioTerminate();
