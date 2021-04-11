@@ -1,6 +1,7 @@
 #ifndef LCD_H_
 #define LCD_H_
 #include <cstdint>
+#include <ostream>
 
 class LCD {
 private:
@@ -27,7 +28,10 @@ public:
     bool getBacklight() const;
     void enableCursor(bool enable=true);
     void enableBlinking(bool enable=true);
+    //void print(std::ostream &stream) const;
+    LCD&  operator<<(const char *chaine) ;
 };
+
 
 #endif /* LCD_H_ */
 

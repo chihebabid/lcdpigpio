@@ -2,6 +2,7 @@
 #include "pigpio.h"
 #include <cstdint>
 #include <unistd.h>
+#include <iostream>
 
 // Commands
 #define    LCD_CLEAR    0x01
@@ -15,7 +16,6 @@
 #define LCD_8BITMODE 0x10
 #define LCD_4BITMODE 0x00
 #define LCD_2LINE 0x08
-#define LCD_1LINE 0x00
 #define LCD_5x10DOTS 0x04
 #define LCD_5x8DOTS 0x00
 
@@ -172,4 +172,9 @@ void LCD::enableCursor(bool enable) {
 void LCD::enableBlinking(bool enable) {
     m_displayControl= enable ? (m_displayControl | LCD_BLINKON) : (m_displayControl & ~LCD_BLINKON);
     sendCommand(m_displayControl);
+}
+
+LCD&  LCD::operator<<(const char *chaine)  {
+    puts(chaine);
+    return *this;
 }
