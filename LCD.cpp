@@ -2,7 +2,7 @@
 #include "pigpio.h"
 #include <cstdint>
 #include <unistd.h>
-#include <iostream>
+
 // Commands
 #define    LCD_CLEAR    0x01
 #define LCD_RETURNHOME 0x02
@@ -22,7 +22,6 @@
 
 // flags for display on/off control
 #define LCD_DISPLAYON 0x04
-#define LCD_DISPLAYOFF 0x00
 #define LCD_CURSORON 0x02
 #define LCD_CURSOROFF 0x00
 #define LCD_BLINKON 0x01
@@ -56,7 +55,7 @@ LCD::LCD(const uint8_t bus, uint8_t addr, uint8_t width, bool backlight_on, uint
 }
 
 LCD::~LCD() {
-    // TODO Auto-generated destructor stub
+    i2cClose(m_i2cHandle);
 }
 
 /*
@@ -84,7 +83,10 @@ void LCD::sendCommand(const uint8_t cmd) const {
     sendByte(MSb, LSb);
 }
 
-void LCD::putData(const uint8_t bits) const {
+/*
+ * Display a char
+ */
+void LCD::putChar(const uint8_t bits) const {
     uint8_t MSN = (bits >> 4) & 0x0F;
     uint8_t LSN = bits & 0x0F;
     uint8_t MSb = (MSN << m_B4) | m_RS;
@@ -130,7 +132,7 @@ void LCD::clear() const {
  */
 void LCD::puts(const char *str) {
     while (*str)
-        putData((uint8_t) *(str++));
+        putChar((uint8_t) *(str++));
 }
 
 /*
@@ -147,4 +149,27 @@ void LCD::goHome() const {
 void LCD::enableBacklight(bool backlight_on) {
     m_backlight_on=backlight_on;
     i2cWriteByte(m_i2cHandle, m_backlight_on ? LCD_BACKLIGHT : 0);
+}
+
+/*
+ * Return the status of backlight
+ */
+bool LCD::getBacklight() const {
+    return m_backlight_on;
+}
+
+/*
+ * Enable/Disable cursor
+ */
+void LCD::enableCursor(bool enable) {
+    m_displayControl= enable ? (m_displayControl | LCD_CURSORON) : (m_displayControl & ~LCD_CURSORON);
+    sendCommand(m_displayControl);
+}
+
+/*
+ * Enable/Disable cursor blinking
+ */
+void LCD::enableBlinking(bool enable) {
+    m_displayControl= enable ? (m_displayControl | LCD_BLINKON) : (m_displayControl & ~LCD_BLINKON);
+    sendCommand(m_displayControl);
 }

@@ -19,11 +19,14 @@ public:
 			uint8_t B4 = 4);
 	virtual ~LCD();
 	void setPosition(const uint8_t x, const uint8_t y) const;
-	void putData(const uint8_t bits) const;
+	void putChar(const uint8_t bits) const;
 	void puts (const char *str);
 	void clear() const;
 	void goHome() const;
     void enableBacklight(bool backlight_on=true);
+    bool getBacklight() const;
+    void enableCursor(bool enable=true);
+    void enableBlinking(bool enable=true);
 };
 
 #endif /* LCD_H_ */
