@@ -1,8 +1,8 @@
 #include "LCD.h"
 #include "pigpio.h"
 #include <cstdint>
-#include <unistd.h>
-#include <iostream>
+#include <chrono>
+#include <thread>
 
 // Commands
 #define    LCD_CLEAR    0x01
@@ -63,11 +63,11 @@ LCD::~LCD() {
  */
 void LCD::init() const {
     write4bits(0x3 << 4);
-    usleep(4500);
+    std::this_thread::sleep_for(std::chrono::microseconds(4500));
     write4bits(0x3 << 4);
-    usleep(4500);
+    std::this_thread::sleep_for(std::chrono::microseconds(4500));
     write4bits(0x3 << 4);
-    usleep(150);
+    std::this_thread::sleep_for(std::chrono::microseconds(150));
     write4bits(0x2 << 4);
     sendCommand(m_displayFunction);
     sendCommand(m_displayControl);
@@ -105,9 +105,9 @@ void LCD::sendByte(uint8_t msb, uint8_t lsb) const {
 
 void LCD::write4bits(uint8_t value) const {
     i2cWriteByte(m_i2cHandle, value | m_E);
-    usleep(1);
+    std::this_thread::sleep_for(std::chrono::microseconds(1));
     i2cWriteByte(m_i2cHandle, value & ~m_E);
-    usleep(50);
+    std::this_thread::sleep_for(std::chrono::microseconds(50));
 }
 
 /*
@@ -115,7 +115,7 @@ void LCD::write4bits(uint8_t value) const {
  */
 void LCD::setPosition(const uint8_t x, const uint8_t y) const {
     sendCommand(lcdRowOffset[y] + x);
-    usleep(2000);
+    std::this_thread::sleep_for(std::chrono::milliseconds(2));
 }
 
 /*
@@ -123,7 +123,7 @@ void LCD::setPosition(const uint8_t x, const uint8_t y) const {
  */
 void LCD::clear() const {
     sendCommand(LCD_CLEAR);
-    usleep(2000);
+    std::this_thread::sleep_for(std::chrono::milliseconds(2));
 
 }
 
@@ -140,7 +140,7 @@ void LCD::puts(const char *str) {
  */
 void LCD::goHome() const {
     sendCommand(LCD_RETURNHOME);
-    usleep(2000);
+    std::this_thread::sleep_for(std::chrono::milliseconds(2));
 }
 
 /*
