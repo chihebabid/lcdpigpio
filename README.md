@@ -16,6 +16,6 @@ After initialization of pigpio library, it is possible to create an instance of 
 
 By default, the display will be on and no cursor is displayed
 
-To enable cursor, use ``lcd.enableCursor()``, or ``lcd.enableCursor(false)``
+To enable cursor, use ``lcd.enableCursor()``, or ``lcd.enableCursor(true)``
 
 To disable cursor, use ``lcd.enableCursor(false)``
