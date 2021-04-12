@@ -7,7 +7,7 @@ Assuming pigpio library is installed, simply add class files to your project.
 
 After initialization of pigpio library, it is possible to create an instance of LCD. It is sufficient to precise the i2c bus and the address of PCF8574.
 
-`` if (gpioInitialise() < 0) {
+	if (gpioInitialise() < 0) {
 		cout << "Failure..." << endl;
 		exit(-1);
 	}
@@ -16,10 +16,6 @@ After initialization of pigpio library, it is possible to create an instance of 
 
 By default, the display will be on and no cursor is displayed
 
-To enable cursor 
+To enable cursor, use ``lcd.enableCursor()``, or ``lcd.enableCursor(false)``
 
-``lcd.enableCursor()``
-
-To disable cursor
-
-``lcd.enableCursor(false)``
+To disable cursor, use ``lcd.enableCursor(false)``
