@@ -1,6 +1,7 @@
 #include "LCD.h"
 #include "pigpio.h"
 #include <cstdint>
+#include <cstdarg>
 #include <chrono>
 #include <thread>
 
@@ -197,4 +198,15 @@ void LCD::scrollDisplayRight(bool right) {
 void LCD::autoScroll(bool enable){
     m_displayMode =enable ? (m_displayMode | LCD_ENTRYSHIFTINCREMENT) : (m_displayMode & ~LCD_ENTRYSHIFTINCREMENT);
     sendCommand(m_displayMode);
+}
+/*
+ * A C-printf allowing to print a formatted string
+ */
+void LCD::printf(const char *fmt,...) {
+    char buffer[256];
+    va_list args;
+    va_start (args, fmt);
+    vsprintf (buffer,fmt, args);
+    puts(buffer);
+    va_end (args);
 }
